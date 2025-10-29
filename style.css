@@ -1,0 +1,26 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background-color: #fafafa;
+}
+
+.lot {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background: white;
+}
+
+button {
+  background: green;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: darkgreen;
+}
