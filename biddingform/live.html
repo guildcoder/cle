@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Caprock Live — Bidding Board</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <h1 id="liveBrand">Caprock Livestock Exchange</h1>
+        <p id="liveSaleName" class="tag">Live Bidding Board</p>
+      </div>
+
+      <div id="getNumberArea" class="card small">
+        <h4>Get Bidding Number</h4>
+        <p class="muted">Provide name, phone, email to receive a unique 5-digit bid number.</p>
+        <button id="getNumberBtn" class="btn">Get Bidding Number</button>
+      </div>
+    </header>
+
+    <section id="liveTopInfo" class="card">
+      <div id="businessInfo" class="muted"></div>
+      <div id="saleDates" class="muted"></div>
+      <div class="muted">Live link: <span id="displayLiveUrl"></span></div>
+    </section>
+
+    <section id="lotsSection" class="grid-cards card">
+      <!-- JS will populate lots here. -->
+    </section>
+
+    <footer class="footer">
+      <small>Caprock Livestock Exchange — View-only for now</small>
+    </footer>
+  </main>
+
+  <div id="getNumberModal" class="modal hidden">
+    <div class="modal-content card">
+      <h3>Get Bidding Number</h3>
+      <label>Name<input id="bidderName" /></label>
+      <label>Phone<input id="bidderPhone" placeholder="Digits only" /></label>
+      <label>Email<input id="bidderEmail" /></label>
+      <div class="form-row">
+        <button id="requestNumberBtn" class="btn">Submit</button>
+        <button id="cancelNumberBtn" class="btn outline">Cancel</button>
+      </div>
+      <p id="bidderMsg" class="muted"></p>
+    </div>
+  </div>
+
+  <script type="module" src="../js/app.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      window.app.initLivePage(); // loads sale by URL param, such as ?saleId=abc123
+    });
+  </script>
+</body>
+</html>
