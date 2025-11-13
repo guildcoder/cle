@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Caprock — Bidding App (Seller)</title>
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div class="brand">
+        <h1>Caprock Livestock Exchange</h1>
+        <p class="tag">Bidding App — Seller Entry</p>
+      </div>
+      <div class="small-meta">Seller Portal • Protected Entry</div>
+    </header>
+
+    <section id="entry-section" class="card">
+      <h2>Enter Your Bidding Entry Number</h2>
+      <p>Provide the temporary entry number given to you to unlock the sale builder.</p>
+      <div class="form-row">
+        <input id="entryCodeInput" placeholder="Enter entry number (e.g. A1B2C3)" />
+        <button id="entryCheckBtn" class="btn">Unlock</button>
+      </div>
+      <p id="entryMsg" class="muted"></p>
+    </section>
+
+    <section id="seller-form-section" class="card hidden">
+      <h2>Create Sale</h2>
+
+      <div class="form-grid">
+        <label>Business Name<input id="businessName" /></label>
+        <label>Sale Name<input id="saleName" /></label>
+        <label>Logo (optional)<input id="logoInput" type="file" accept="image/*" /></label>
+        <label>Description (optional)<textarea id="saleDesc"></textarea></label>
+      </div>
+
+      <div class="form-grid two-col">
+        <label>Number of Lots
+          <select id="numLots">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="12">12</option>
+          </select>
+        </label>
+
+        <label>Use global starting price & increment?
+          <select id="globalPrices">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </label>
+      </div>
+
+      <div id="globalPricingInputs" class="form-grid">
+        <label>Opening Price (USD)<input id="globalOpening" type="number" step="0.01" /></label>
+        <label>Bid Increment (USD)<input id="globalIncrement" type="number" step="0.01" /></label>
+      </div>
+
+      <div class="form-grid two-col">
+        <label>Sale Start (local)<input id="startDate" type="datetime-local"></label>
+        <label>Start Timezone
+          <select id="startTz">
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="America/Denver">America/Denver</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+            <option value="UTC">UTC</option>
+          </select>
+        </label>
+
+        <label>Sale End (local)<input id="endDate" type="datetime-local"></label>
+        <label>End Timezone
+          <select id="endTz">
+            <option value="America/Chicago">America/Chicago</option>
+            <option value="America/Denver">America/Denver</option>
+            <option value="America/Los_Angeles">America/Los_Angeles</option>
+            <option value="UTC">UTC</option>
+          </select>
+        </label>
+      </div>
+
+      <div>
+        <button id="createSaleBtn" class="btn primary">Create Sale & Add Lots</button>
+        <p class="muted">After creating, you'll complete each lot's details in order.</p>
+      </div>
+    </section>
+
+    <section id="lot-entry-section" class="card hidden">
+      <h2>Lot Entry (<span id="lotIndexDisplay">1</span> / <span id="lotTotalDisplay">1</span>)</h2>
+      <form id="lotForm">
+        <div class="form-grid">
+          <label>Ear Notch<input id="earNotch" required /></label>
+          <label>Upload Photo<input id="lotPhoto" type="file" accept="image/*" /></label>
+          <label>Pedigree<textarea id="pedigree"></textarea></label>
+          <label>Breed<input id="breed" /></label>
+          <label id="perLotPricingRow">Starting Bid (USD)<input id="lotStartingBid" type="number" step="0.01" /></label>
+          <label id="perLotIncrementRow">Bid Increment (USD)<input id="lotIncrement" type="number" step="0.01" /></label>
+        </div>
+
+        <div class="form-row">
+          <button id="saveLotBtn" class="btn">Save Lot</button>
+          <button id="finishSaleBtn" class="btn outline">Finish & View Dashboard</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="dashboard-section" class="card hidden">
+      <div class="dashboard-header">
+        <div>
+          <h2 id="dashboardSaleTitle"></h2>
+          <p id="dashboardSaleDates" class="muted"></p>
+        </div>
+        <div class="controls">
+          <button class="btn tooltip" id="startSaleBtn" data-tooltip="Open the sale to live bidders">Start Sale</button>
+          <button class="btn tooltip" id="pauseSaleBtn" data-tooltip="Pause current bids. Resume with Start">Temporarily Pause Sale</button>
+          <button class="btn tooltip" id="endSaleBtn" data-tooltip="Close the sale">End Sale</button>
+
+          <button class="btn tooltip" id="exportAllBtn" data-tooltip="Export CSV of all bids">Export All Bids</button>
+          <button class="btn tooltip" id="exportWinningBtn" data-tooltip="Export CSV of current winning bids">Export Winning Bids</button>
+
+          <button id="shareBtn" class="btn share">Share Live Bidding Site</button>
+        </div>
+      </div>
+
+      <p class="muted">The sale will automatically begin and end at your selected date and times.</p>
+
+      <div id="liveLinkRow" class="muted">Live link: <span id="liveLinkDisplay">—</span></div>
+
+      <div id="lotsGrid" class="grid-cards"></div>
+    </section>
+
+    <footer class="footer">
+      <small>Caprock Livestock Exchange — Dusty cotton • Royal red • Dark navy</small>
+    </footer>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+  <script>
+    // Initialize seller-entry page behavior after app.js loads.
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof window.app === 'undefined') {
+        console.error('app.js not loaded');
+      } else {
+        window.app.initSellerPage();
+      }
+    });
+  </script>
+</body>
+</html>
